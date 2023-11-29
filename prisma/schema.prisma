@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ICB_DATABASE_URL")
+}
+
+model Users {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  name      String
+  languages Languages[]
+}
+
+model Languages {
+  id Int @id @default(autoincrement())
+
+  Users   Users? @relation(fields: [usersId], references: [id])
+  usersId Int?
+}
